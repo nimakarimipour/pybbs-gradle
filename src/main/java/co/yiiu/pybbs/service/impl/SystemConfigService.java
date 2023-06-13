@@ -4,6 +4,7 @@ import co.yiiu.pybbs.mapper.SystemConfigMapper;
 import co.yiiu.pybbs.model.SystemConfig;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +21,11 @@ public class SystemConfigService implements ISystemConfigService {
 
   @Resource private SystemConfigMapper systemConfigMapper;
 
-  private static Map<String, String> SYSTEM_CONFIG;
+  private static @RUntainted Map<@RUntainted String, @RUntainted String> SYSTEM_CONFIG;
   private static Map<String, String> SYSTEM_CONFIG_WITHOUT_PASSWORD;
 
   @Override
-  public Map<String, String> selectAllConfig() {
+  public @RUntainted Map<@RUntainted String, @RUntainted String> selectAllConfig() {
     if (SYSTEM_CONFIG != null) {
       return SYSTEM_CONFIG;
     }

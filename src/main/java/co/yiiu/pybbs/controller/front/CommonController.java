@@ -4,6 +4,7 @@ import co.yiiu.pybbs.controller.api.BaseApiController;
 import co.yiiu.pybbs.util.FileUtil;
 import co.yiiu.pybbs.util.captcha.Captcha;
 import co.yiiu.pybbs.util.captcha.GifCaptcha;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.io.IOException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +25,7 @@ public class CommonController extends BaseApiController {
   public void captcha(HttpServletResponse response, HttpSession session) throws IOException {
     Captcha captcha = new GifCaptcha();
     captcha.out(response.getOutputStream());
-    String text = captcha.text();
+    @RUntainted String text = captcha.text();
     session.setAttribute("_captcha", text);
   }
 
