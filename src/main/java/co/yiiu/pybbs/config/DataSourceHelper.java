@@ -1,6 +1,7 @@
 package co.yiiu.pybbs.config;
 
 import co.yiiu.pybbs.util.SpringContextUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
@@ -22,11 +23,11 @@ public class DataSourceHelper {
     if (siteConfig == null) siteConfig = SpringContextUtil.getBean(SiteConfig.class);
     try {
       Class.forName(siteConfig.getDatasource_driver());
-      URI uri = new URI(siteConfig.getDatasource_url().replace("jdbc:", ""));
-      String host = uri.getHost();
-      int port = uri.getPort();
+      @RUntainted URI uri = new URI(siteConfig.getDatasource_url().replace("jdbc:", ""));
+      @RUntainted String host = uri.getHost();
+      @RUntainted int port = uri.getPort();
       String path = uri.getPath();
-      String query = uri.getQuery();
+      @RUntainted String query = uri.getQuery();
       Connection connection =
           DriverManager.getConnection(
               "jdbc:mysql://" + host + ":" + port + "?" + query,

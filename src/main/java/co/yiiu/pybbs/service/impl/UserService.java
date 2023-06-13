@@ -10,6 +10,7 @@ import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import co.yiiu.pybbs.util.identicon.Identicon;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -29,7 +30,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Transactional
 public class UserService implements IUserService {
 
-  @Resource private UserMapper userMapper;
+  @Resource private @RUntainted UserMapper userMapper;
   @Resource @Lazy private ICollectService collectService;
   @Resource @Lazy private ITopicService topicService;
   @Resource @Lazy private ICommentService commentService;
@@ -40,7 +41,7 @@ public class UserService implements IUserService {
 
   // 根据用户名查询用户，用于获取用户的信息比对密码
   @Override
-  public User selectByUsername(String username) {
+  public @RUntainted User selectByUsername(String username) {
     QueryWrapper<User> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(User::getUsername, username);
     return userMapper.selectOne(wrapper);
@@ -72,7 +73,7 @@ public class UserService implements IUserService {
    * @return
    */
   @Override
-  public User addUser(
+  public @RUntainted User addUser(
       String username,
       String password,
       String avatar,
@@ -129,9 +130,9 @@ public class UserService implements IUserService {
 
   // 通过手机号登录/注册创建用户
   @Override
-  public User addUserWithMobile(String mobile) {
+  public @RUntainted User addUserWithMobile(String mobile) {
     // 根据手机号查询用户是否注册过
-    User user = selectByMobile(mobile);
+    @RUntainted User user = selectByMobile(mobile);
     if (user == null) {
       String token = this.generateToken();
       String username = generateUsername();
@@ -153,7 +154,7 @@ public class UserService implements IUserService {
 
   // 根据用户token查询用户
   @Override
-  public User selectByToken(String token) {
+  public @RUntainted User selectByToken(String token) {
     QueryWrapper<User> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(User::getToken, token);
     return userMapper.selectOne(wrapper);
@@ -161,7 +162,7 @@ public class UserService implements IUserService {
 
   // 根据用户mobile查询用户
   @Override
-  public User selectByMobile(String mobile) {
+  public @RUntainted User selectByMobile(String mobile) {
     QueryWrapper<User> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(User::getMobile, mobile);
     return userMapper.selectOne(wrapper);
@@ -169,19 +170,19 @@ public class UserService implements IUserService {
 
   // 根据用户email查询用户
   @Override
-  public User selectByEmail(String email) {
+  public @RUntainted User selectByEmail(String email) {
     QueryWrapper<User> wrapper = new QueryWrapper<>();
     wrapper.lambda().eq(User::getEmail, email);
     return userMapper.selectOne(wrapper);
   }
 
   @Override
-  public User selectById(Integer id) {
+  public @RUntainted User selectById(Integer id) {
     return userMapper.selectById(id);
   }
 
   @Override
-  public User selectByIdWithoutCache(Integer id) {
+  public @RUntainted User selectByIdWithoutCache(Integer id) {
     return userMapper.selectById(id);
   }
 
@@ -195,7 +196,7 @@ public class UserService implements IUserService {
 
   // 更新用户信息
   @Override
-  public void update(User user) {
+  public void update(@RUntainted User user) {
     userMapper.updateById(user);
 
     // 更新session中的用户
@@ -226,7 +227,7 @@ public class UserService implements IUserService {
     return userMapper.selectPage(page, wrapper);
   }
 
-  public User selectByIdNoCatch(Integer id) {
+  public @RUntainted User selectByIdNoCatch(Integer id) {
     return userMapper.selectById(id);
   }
 

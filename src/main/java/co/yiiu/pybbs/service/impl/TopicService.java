@@ -8,6 +8,7 @@ import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.MyPage;
 import co.yiiu.pybbs.util.SensitiveWordUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -94,7 +95,7 @@ public class TopicService implements ITopicService {
 
   // 保存话题
   @Override
-  public Topic insert(String title, String content, String tags, User user) {
+  public Topic insert(String title, String content, String tags, @RUntainted User user) {
     Topic topic = new Topic();
     topic.setTitle(Jsoup.clean(title, Whitelist.simpleText()));
     topic.setStyle(systemConfigService.selectAllConfig().get("content_style"));
@@ -237,7 +238,7 @@ public class TopicService implements ITopicService {
   // ---------------------------- api ----------------------------
 
   @Override
-  public int vote(Topic topic, User user) {
+  public int vote(Topic topic, @RUntainted User user) {
     String upIds = topic.getUpIds();
     // 将点赞用户id的字符串转成集合
     Set<String> strings = StringUtils.commaDelimitedListToSet(upIds);

@@ -6,6 +6,7 @@ import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.CookieUtil;
 import co.yiiu.pybbs.util.HttpUtil;
 import co.yiiu.pybbs.util.IpUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +36,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 
     // 判断session里有用户信息，有直接通过
     HttpSession session = request.getSession();
-    User user = (User) session.getAttribute("_user");
+    @RUntainted User user = (User) session.getAttribute("_user");
     if (user == null) {
       // 获取cookie里的token，查询用户的信息并放入session里
       String token =

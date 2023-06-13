@@ -5,6 +5,7 @@ import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.service.impl.UserService;
 import co.yiiu.pybbs.util.CookieUtil;
 import co.yiiu.pybbs.util.HttpUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +26,7 @@ public class UserInterceptor implements HandlerInterceptor {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
     HttpSession session = request.getSession();
-    User user = (User) session.getAttribute("_user");
+    @RUntainted User user = (User) session.getAttribute("_user");
     if (user == null) {
       String token =
           cookieUtil.getCookie(systemConfigService.selectAllConfig().get("cookie_name").toString());

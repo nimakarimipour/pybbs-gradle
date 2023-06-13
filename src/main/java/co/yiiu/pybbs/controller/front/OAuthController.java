@@ -7,6 +7,7 @@ import co.yiiu.pybbs.service.IOAuthUserService;
 import co.yiiu.pybbs.service.ISystemConfigService;
 import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.CookieUtil;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import me.zhyd.oauth.model.AuthCallback;
@@ -63,7 +64,7 @@ public class OAuthController extends BaseController {
 
     OAuthUser oAuthUser =
         oAuthUserService.selectByTypeAndLogin(type.toUpperCase(), authUser.getUsername());
-    User user;
+    @RUntainted User user;
     if (oAuthUser == null) {
       if (userService.selectByUsername(username) != null) {
         username = username + githubId;

@@ -1,12 +1,14 @@
 package co.yiiu.pybbs.service;
 
 import co.yiiu.pybbs.model.SystemConfig;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.List;
 import java.util.Map;
 
 /** Created by tomoya. Copyright (c) 2018, All Rights Reserved. https://atjiu.github.io */
 public interface ISystemConfigService {
-  Map<String, String> selectAllConfig();
+  @RUntainted
+  Map<@RUntainted String, @RUntainted String> selectAllConfig();
 
   // 根据键取值
   SystemConfig selectByKey(String key);

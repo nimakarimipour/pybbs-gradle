@@ -9,6 +9,7 @@ import co.yiiu.pybbs.service.IUserService;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.StringUtil;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
+import edu.ucr.cs.riple.taint.ucrtainting.qual.RUntainted;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -119,7 +120,7 @@ public class SettingsApiController extends BaseApiController {
   // 修改密码
   @PutMapping("/updatePassword")
   public Result updatePassword(@RequestBody Map<String, String> body) {
-    User user = getApiUser();
+    @RUntainted User user = getApiUser();
     user = userService.selectByIdWithoutCache(user.getId());
 
     String oldPassword = body.get("oldPassword");
