@@ -61,7 +61,7 @@ checkerFramework {
     ]
 
     extraJavacArgs = [
-            '-AannotatedPackages=' + 'org',
+            '-AannotatedPackages=' + 'co.yiiu.pybbs',
             '-AenableCustomCheck=true'
     ]
 }
