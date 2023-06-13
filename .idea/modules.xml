@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/pybbs-gradle.iml" filepath="$PROJECT_DIR$/.idea/pybbs-gradle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/pybbs-gradle.main.iml" filepath="$PROJECT_DIR$/.idea/modules/pybbs-gradle.main.iml" />
     </modules>
   </component>
 </project>
